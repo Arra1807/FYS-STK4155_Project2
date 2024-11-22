@@ -1,0 +1,338 @@
+
+
+
+
+\subsection{Logistic Regression}
+
+
+Logistic regression is a statistical method used for binary classification tasks, mapping input features to a probability between 0 and 1. This probability represents the likelihood of an input belonging to a specific class.
+
+The probability of class membership is calculated using the logistic (sigmoid) function.
+
+\begin{equation}
+      p(t) = \frac{1}{1 + e^{-t}}
+\end{equation}
+where \( t \) is a linear combination of input features. This function bounds outputs between 0 and 1, making the result interpretable as a probability.
+
+For binary classification, we model the probability of a data point \( x_i \) belonging to class 1 as:
+   \[
+   p(y_i = 1 | x_i, \beta) = \frac{\exp(\beta_0 + \beta_1 x_i)}{1 + \exp(\beta_0 + \beta_1 x_i)}
+   \]
+where \( \beta_0 \) and \( \beta_1 \) are parameters representing the intercept and feature weights, respectively.
+
+
+Basically, logistic regression uses a sigmoid function to model probabilities, with parameters optimized by minimizing a cost function through gradient descent or, optionally, second-order methods involving the Hessian. This method is widely employed due to its simplicity and interpretability in binary classification contexts.
+
+
+
+
+%Nesterov Accelerated Gradient (NAG):
+%- **NAG** improves upon regular momentum by looking ahead. Instead of calculating the gradient at the current parameters, it computes the gradient at the **expected future position** \( \theta_t + \gamma v_{t-1} \), allowing the algorithm to anticipate changes in direction:
+%  \[  v_t = \gamma v_{t-1} + \eta \nabla_\theta E(\theta_t + \gamma v_{t-1}) \]
+%  Followed by:  \[ \theta_{t+1} = \theta_t - v_t \]
+%  **Key advantage**: NAG allows for the use of a **larger learning rate** while maintaining control over convergence, resulting in faster and more accurate updates.
+
+%### Second-Order Moments and Optimizers (Adam, RMSProp):
+%- **Second-order moment methods** adjust the learning rate dynamically based on both the gradient (first moment) and the curvature of the error surface (second moment). Optimizers like **Adam** and **RMSProp** use this adaptive learning rate technique to adjust each parameter's learning rate depending on the landscape of the error function.
+  
+ % - **Adam** tracks both the mean and variance of gradients to adjust the learning rate dynamically, making it effective for noisy data or sparse gradients.
+ % - **RMSProp** adjusts the learning rate based on the moving average of squared gradients, helping with efficient convergence, especially in non-uniform landscapes.
+
+
+
+Certainly! Here’s a shorter version:
+
+### What is AdaGrad?
+AdaGrad (Adaptive Gradient Algorithm) is an optimization technique used in machine learning to adjust the learning rate for each parameter during training, making it particularly effective for sparse data. Introduced in 2011, AdaGrad automatically adapts the learning rate for each parameter based on past updates, leading to more efficient convergence.
+
+### How Does AdaGrad Work?
+AdaGrad works by scaling the learning rate for each parameter based on the sum of its past squared gradients:
+
+1. **Initialize Variables**: Start with parameters **θ**, set a small constant **ε** to prevent division by zero, and initialize **G** (sum of squared gradients) to zero.
+
+2. **Calculate Gradients**: Compute the gradient of the loss function for each parameter **∇θJ(θ)**.
+
+3. **Accumulate Squared Gradients**: Update **G** by adding the squared value of each gradient:
+   \[
+   G[i] \gets G[i] + (\nabla_{\theta} J(\theta[i]))^2
+   \]
+
+4. **Update Parameters**: Use the adaptive learning rate to update each parameter:
+   \[
+   \theta[i] \gets \theta[i] - \left( \frac{\eta}{\sqrt{G[i]} + \epsilon} \right) \cdot \nabla_{\theta} J(\theta[i])
+   \]
+
+### Key Points
+- **Per-Parameter Learning Rate**: Each parameter gets its own adaptive learning rate, making training more efficient and helping AdaGrad perform well with sparse data.
+- **Learning Rate Decay**: A drawback is that learning rates can become too small over time, potentially slowing or halting training.
+
+In summary, AdaGrad is an adaptive optimizer that adjusts learning rates based on past gradients, offering efficient training, especially for sparse datasets, but with a risk of the learning rate shrinking too much as training progresses.
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Classification}
+
+
+%Binary classification
+%linear classifier 
+
+
+Classification is a function in machine learning where data points are sorted into categories based on their characteristics. Unlike regression, classification deals with discrete outputs, where it represents different classes. There are different types for classification problems, but on this project we will focus manily on binary classification. In binary classification, the model predicts two possible outcomes, such as "yes" or "no". 
+
+One of the most used algorithms in binary classification is logistic regression. Logistic regression converts input data into a probability from 0 to 1 to predict how likely it is that a data point belongs to a certain class. The model is based on the sigmoid function  Equation \ref{sigmoid}. %The logistic fucntion for binary classification is given in Equation ...., and we can see that this is similar to out Equation from .... 
+
+\begin{equation}
+    P(y = 1 | \hat{x}, \hat{\theta}) = \frac{1}{1 + \exp(-\hat{x})}, 
+\end{equation}
+where \( \hat{x} \) represents the weighted sum of inputs for the given data point, and \( \hat{\theta} \) includes the model's weights and biases.
+
+
+ %Unlike regression, which predicts continuous outcomes, classification deals with **discrete outputs**, typically representing distinct categories or classes. For instance, in binary classification, the model predicts one of two possible outcomes, such as “yes” or “no,” “positive” or “negative,” or in some cases, categories like “dog” or “not-dog.”
+
+
+
+%One of the primary algorithms used in binary classification is **logistic regression**. Logistic regression maps the input data to a probability between 0 and 1, allowing the model to predict the likelihood of a data point belonging to a particular class. The model is based on the **sigmoid function**, which transforms the linear combination of input features into a probability score. For example, a threshold of 0.5 is often used in binary classification tasks: if the probability is greater than 0.5, the outcome is classified as 1 (positive), and if less than 0.5, it’s classified as 0 (negative).
+
+%The logistic function for binary classification is given by:
+
+%\[P(y = 1 | \hat{x}, \hat{\theta}) = \frac{1}{1 + \exp(-\hat{x})} \]
+
+%where \( \hat{x} \) represents the weighted sum of inputs (features) for the given data point, and \( \hat{\theta} \) includes the model's weights and biases.
+
+%This probabilistic approach allows logistic regression to model classification problems more flexibly, especially in cases where outcomes are not strictly binary but involve some uncertainty. Logistic regression thus serves as a "soft" classifier, outputting probabilities rather than binary outcomes, making it well-suited for various applications, from medical diagnosis to spam detection.
+
+
+In cases where a model requires a simple decision boundary, the perceptron model serves as an early example of a classifier. The perceptron maps continuous values into binary outputs by applying a sign function to the weighted sum of inputs:
+
+\[
+f(s_i) = \text{sign}(s_i) = \begin{cases} 
+      1, & \text{if } s_i \geq 0 \\ 
+      0, & \text{otherwise} 
+   \end{cases}
+\]
+
+Although the perceptron is a foundational model for binary classification, it is often limited by its simplicity and rigidity in decision-making. For more complex tasks, logistic regression provides a better alternative by outputting probabilities rather than fixed classes, leading to a smoother decision-making process.
+
+
+Logistic regression and other classification methods can also be extended to handle multi-class classification, when there are more than two possible outcomes. A common strategy for multi-class tasks is the "one-vs-all" approach, in which multiple binary classifiers are trained to distinguish between each class and the rest. %Additionally, **softmax regression** is used in multi-class settings to output probabilities for each class, ensuring they sum up to 1.
+
+
+%This section outlines the core ideas behind classification and introduces logistic regression and perceptron models as key methods for binary classification. The flexibility of logistic regression in probabilistic classification, along with the potential to expand these techniques to multi-class problems, makes classification a versatile and essential area in machine learning.
+
+
+gradient descent
+
+The idea behind GD, is that we minimize a function \(F(x)\), \(x\) = \((x_1, \dots, x_n)\) by "updating/iterating" the parameter in the direction of the negative gradient \( -\nabla F(x) \), which points towards the steepest decrease in the function's value.
+This can be shown as 
+\begin{equation}
+    x_{k+1} = x_k - \eta_k \nabla F(x_k), 
+\end{equation}
+
+
+
+%5. **Convex Functions**
+%   - For optimization problems, it is preferable if the **cost function** is **convex**. A convex function ensures that there is only one global minimum, and gradient descent is guaranteed to converge to this global solution. 
+  % - **Convex Set**: A set \( C \subseteq \mathbb{R}^n \) is convex if for any two points \( x \) and \( y \) in the set, the line segment between them also lies in the set. This geometric property of convex sets is essential for the behavior of convex functions.
+   
+  % - **Convex Function**: A function \( f(x) \) is convex if, for any two points \( x_1 \) and \( x_2 \), the function satisfies:
+%     \[
+  %   f(tx_1 + (1-t)x_2) \leq tf(x_1) + (1-t)f(x_2) \quad \text{for all} \quad t \in [0, 1].
+%     \]
+ %    This means that the value of the function at any point on the line between \( x_1 \) and \( x_2 \) is less than or equal to the weighted average of the function values at \( x_1 \) and \( x_2 \).
+%- Convex functions have the property that their global minimum can be found using gradient descent, making them much easier to optimize compared to non-convex functions.
+
+
+
+%droppet hele denne delen men::: !!""
+
+\subsubsection{The limitations around the Gradient Descent}
+Even though GD is a great solution of Machine Learning, there are servaø limitations surrounding the Gradient Method. 
+
+One key issue is that GD often converges to local minima, particularly in machine learning tasks where the cost function has many local minima, leading to non-ideal performance. Additionally, the algorithm is sensitive to initial conditions, meaning different starting points can lead to different outcomes. For large datasets, computing gradients at each step becomes computationally expensive, though this can be mitigated with mini-batch gradient descent, which also adds beneficial randomness. 
+
+Another challenge is the sensitivity to the learning rate \(\gamma\). If it is too small, the process is slow and if too large, GD may overshoot or fail to converge. Since GD treats all directions in the parameter space uniformly, it slows down convergence because it doesn’t account for the varying steepness of the function landscape. 
+Finally, GD can take a long time to get past saddle points (where the gradient is zero), but the point isn't a minimum or maximum and this makes the optimization process harder.
+
+
+
+\subsubsection{ADAM optimizer}
+
+The Adam optimizer is an advanced optimization algorithm that combines momentum-based gradient descent with RMSProp to adaptively adjust the learning rate for each parameter. It tracks both the first moment (mean of the gradients) and the second moment (variance of the gradients). 
+The first moment (the mean) is given as 
+\begin{equation}
+    m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t, 
+\end{equation}
+where \( g_t \) is the gradient, and \( \beta_1 \) controls how much of the past gradients are considered. 
+The second moment, the variance, which helps scale the learning rate based on the magnitude of the gradients, is given as 
+\begin{equation}
+     s_t = \beta_2 s_{t-1} + (1 - \beta_2) g_t^2, 
+\end{equation}
+where \( \beta_2 \) controls how much of the past squared gradients are used.
+To correct for initialization bias, Adam applies bias correction to the first and second moments, calculated as 
+\[ \hat{m}_t = \frac{m_t}{1 - \beta_1^t} \]
+and \[ \hat{s}_t = \frac{s_t}{1 - \beta_2^t} \]
+The final parameter update rule is
+\begin{equation}
+    \theta_{t+1} = \theta_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{s}_t} + \epsilon}, 
+\end{equation}
+where \( \eta \) is the learning rate, and \( \epsilon \) is a small constant added to avoid division by zero. This combination of first and second moments allows Adam to adapt the learning rate for each parameter, making it particularly effective for large-scale or noisy data, and thus a popular choice in deep learning applications.
+
+
+
+
+
+\subsection{Activation functions}
+ 
+
+The activation function of each neuron defines hoe the neurons output is computed from its input. The activation function introduces non-linearity into the model, which is important for the network to learn and represent complex patterns. Without the non-linear activation functions, the network would only be able to perform linear transformations which limits its ability to model the complex data.  
+
+
+The Universal Approximation Theorem is when a neural network can approximate any continuous function under certain conditions—an activation function in an Feed-Forward Neural Network must have the following properties:
+
+\begin{itemize}
+    \item  The function cannot be constant. If the function is constant, it will not allow the network to learn varying outputs. 
+    \item The functions output should have limits, making the training stable and reducing the risk of extreme values. 
+    \item The function should increase steadily to ensure the output changes consistently with changes in input. 
+    \item Smooth, continuous functions allow for gradient-based optimization, which is essential for training. 
+\end{itemize}
+
+
+Two common activation functions that meet these requirements and are widely used are the Logistic Sigmoid Function in Equation \ref{sigmoid} and Hyperbolic Tangent (Tanh) Function given in Equation \ref{tanh}. The sigmoid function maps any input \( x \) to a value between 0 and 1. It is commonly used for binary classification, where the output can be interpreted as a probability.
+The tanh function outputs values between -1 and 1, which can be useful for models where centered data around zero is beneficial. It’s often used in hidden layers because it can produce stronger gradients than the sigmoid function.
+
+
+\begin{equation}
+    \sigma(x) = \frac{1}{1 + e^{-x}}
+    \label{sigmoid}
+\end{equation}
+
+\begin{equation}
+      \sigma(x) = \tanh(x)
+      \label{tanh}
+\end{equation}
+
+
+Using only linear functions in a multi-layer perceptron (MLP) or Feed-Forward Neural Network(FFNN) would result in each layer just performing a linear transformation on the previous layers output. Consequently, the networks final output would also be linear, no matter how many layers it has. This will limit the networks ability to approximate non-linear functions. Non-linear activation functions allow the network to stack layers effectively and helps it to learn complex, non-linear relationships in data.
+
+%In summary, activation functions introduce essential non-linearity into neural networks, enabling them to approximate complex functions. The sigmoid and tanh functions are typical choices for non-linear activation due to their bounded and continuous nature, fulfilling the requirements needed for effective training in FFNNs.
+
+
+
+
+
+
+
+%Parameters \( \beta \) are estimated by minimizing the negative log-likelihood, or cost function:
+ %  \[C(\beta) = -\sum_{i=1}^n \left( y_i \log(p(y_i)) + (1 - y_i) \log(1 - p(y_i)) \right) \]
+ %  where \( y_i \) is the actual class label, and \( p(y_i) \) is the predicted probability. This cost function is minimized using gradient descent, with gradients calculated as:
+  % \[ \frac{\partial C(\beta)}{\partial \beta} = -\mathbf{X}^T (\mathbf{y} - \mathbf{p})\]
+ %  where \( \mathbf{X} \) is the matrix of input features, \( \mathbf{y} \) is the vector of actual labels, and \( \mathbf{p} \) is the vector of predicted probabilities.
+
+%Optimization**: To enhance convergence, the second derivative or Hessian matrix can be used:
+ %  \[\frac{\partial^2 C(\beta)}{\partial \beta \partial \beta^T} = \mathbf{X}^T \mathbf{W} \mathbf{X} \]
+ %  where \( \mathbf{W} \) is a diagonal matrix of weights \( p(y_i)(1 - p(y_i)) \). This second-order information aids in faster and more accurate optimization when computational resources allow.
+
+%In summary, logistic regression uses a sigmoid function to model probabilities, with parameters optimized by minimizing a cost function through gradient descent or, optionally, second-order methods involving the Hessian. This method is widely employed due to its simplicity and interpretability in binary classification contexts.
+
+
+
+
+\subsubsection{Activation functions}
+
+
+However, modern neural networks typically use more complex activation functions like the sigmoid function
+
+\begin{equation}
+    f(x) = \sigma(x) = \frac{1}{1 + e^{-x}}
+\end{equation}
+
+This function outputs values between 0 and 1, and is used in logistic regression and probabilistic neural network models.
+
+
+
+
+The activation function of each neuron defines hoe the neurons output is computed from its input. The activation function introduces non-linearity into the model, which is important for the network to learn and represent complex patterns. Without the non-linear activation functions, the network would only be able to perform linear transformations which limits its ability to model the complex data.  
+
+
+The Universal Approximation Theorem is when a neural network can approximate any continuous function under certain conditions—an activation function in an Feed-Forward Neural Network must have the following properties:
+
+\begin{itemize}
+    \item  The function cannot be constant. If the function is constant, it will not allow the network to learn varying outputs. 
+    \item The functions output should have limits, making the training stable and reducing the risk of extreme values. 
+    \item The function should increase steadily to ensure the output changes consistently with changes in input. 
+    \item Smooth, continuous functions allow for gradient-based optimization, which is essential for training. 
+\end{itemize}
+
+
+
+
+
+Two common activation functions that meet these requirements and are widely used are the Logistic Sigmoid Function in Equation \ref{sigmoid} and Hyperbolic Tangent (Tanh) Function given in Equation \ref{tanh}. The sigmoid function maps any input \( x \) to a value between 0 and 1. It is commonly used for binary classification, where the output can be interpreted as a probability.
+The tanh function outputs values between -1 and 1, which can be useful for models where centered data around zero is beneficial. It’s often used in hidden layers because it can produce stronger gradients than the sigmoid function.
+
+
+\begin{equation}
+    \sigma(x) = \frac{1}{1 + e^{-x}}
+    \label{sigmoid}
+\end{equation}
+
+\begin{equation}
+      \sigma(x) = \tanh(x)
+      \label{tanh}
+\end{equation}
+
+
+Using only linear functions in a multi-layer perceptron (MLP) or Feed-Forward Neural Network(FFNN) would result in each layer just performing a linear transformation on the previous layers output. Consequently, the networks final output would also be linear, no matter how many layers it has. This will limit the networks ability to approximate non-linear functions. Non-linear activation functions allow the network to stack layers effectively and helps it to learn complex, non-linear relationships in data.
+
+
+
+\section{Introduction}
+
+In this project, we explore both regression and classification problems by developing our own feed-Forward Neural Network (FFNN) code. This project is a "continuation" of our earlier project in regression analysis, where we focus on regression techniques like Ordinary Least Square (OLS) and Ridge Regression, while we will also be introducing other "techniques" like Gradient Descent (GD) and Stochastic Gradient Descent (SGD) for optimization. 
+
+The first part of the project is dedicated to regression tasks, where we compare the performance of our previously developed regression models with those obtained using neural networks. For classification, we implement logistic regression and compare it to our FFNN’s ability to perform binary classification tasks. In particular, the Wisconsin Breast Cancer dataset is used to evaluate the effectiveness of different machine learning models in distinguishing between malignant and benign tumors.
+
+Through this project, we aim to develop a deeper understanding of gradient descent optimization methods, activation functions, and neural network architectures. Additionally, we explore how hyperparameters like learning rates, batch sizes, and epochs influence the performance of machine learning models. The project also allows us to critically evaluate our models by comparing them with those from established libraries such as Scikit-learn, TensorFlow, and PyTorch.
+
+Ultimately, this project serves as an important step in mastering the practical aspects of machine learning, enabling us to understand the trade-offs and benefits of different approaches for both regression and classification tasks.
+
+
+
+
+\subsection{Pro and Cons of the algorithms }
+
+In this study, we were introduced to a lot of algorithms. Each have their strengths and limitations, making them suitable for different aspects of the project. From the previous project, we know that linear models like Ordinary Least Squares (OLS) and Ridge Regression provided a simple and interpretable approach, where it caputured the overall trends in data. But when it gets introduced to non-linear models, it does not works effectively. With the regularization parameter \(\lambda\), Ridge Regression was a better choice for handling noisy data, even though the overly strong regularization did lead to underfitting. 
+
+Logistic Regression worked well for binary classification but had trouble with more complex decision boundaries, especially in deeper models, because of the vanishing gradient problem. Stochastic Gradient Descent (SGD) with Mini-batch and Momentum, offered frequent updates that sped up learning but caused some instability. Mini-batch methods struck a balance between efficiency and stability, while momentum helped the model move past local minima for quicker convergence.
+
+
+
+
+%The algorithms used in this study each have distinct strengths and limitations, making them suitable for different aspects of the project. Linear models like Ordinary Least Squares (OLS) and Ridge Regression provided a simple and interpretable approach, capturing overall trends in data but failing to model non-linear relationships effectively. Ridge's regularization offered some improvement in handling noisy data, though overly strong regularization led to underfitting. Logistic Regression was effective for binary classification but struggled with complex decision boundaries, particularly in deeper models, due to the vanishing gradient issue. Stochastic Gradient Descent (SGD) and its variants, such as Mini-batch and Momentum, provided frequent parameter updates that accelerated learning, though they introduced instability. Mini-batch methods balanced computational efficiency and stability, while momentum helped bypass local minima, enabling faster convergence.
+
+Adaptive optimizers like AdaGrad, RMSprop, and Adam added significant value by adjusting learning rates dynamically. AdaGrad worked well initially but was hindered by diminishing learning rates over time. RMSprop and Adam addressed this issue by maintaining consistent learning rates, which proved beneficial for complex, noisy data. Neural networks with feed-forward structures (FFNN) demonstrated their ability to capture non-linear relationships effectively. However, activation functions played a crucial role: Leaky ReLU outperformed standard ReLU and Sigmoid, effectively avoiding issues like dying ReLU and vanishing gradients. While neural networks provided superior flexibility, they required careful tuning of hyperparameters such as learning rate, regularization, and architecture to achieve optimal performance.
+
+%In summary, the choice of algorithm and optimizer should be guided by the nature of the data and the complexity of the problem. Linear models are efficient for capturing basic trends but are limited for more intricate patterns. Gradient-based optimizers with adaptive learning rates, like Adam, are well-suited for handling complex and non-linear data. Neural networks offered the most flexibility, particularly when using activation functions like Leaky ReLU that help mitigate common training challenges. Balancing model complexity, computational cost, and stability remains essential to achieving optimal learning outcomes.
+
+\subsection{Regression}
+
+During this study, we found out that Ridge Regression and Neural Networks together were the best options. Ridge Regression provides a straightforward and interpretable method, effectively handling linear relationships and incorporating regularization to avoid overfitting when the data has some noise. However, Ridge alone may struggle with capturing more complex, non-linear relationships present in real-world datasets.
+
+For more flexibility, the Feed-Forward Neural Network (FFNN) was a stronger choice. The results showed that the MLP offered superior performance in modeling non-linear patterns compared to linear models, as it can learn complex mappings between inputs and outputs through multiple hidden layers. Moreover, the use of Leaky ReLU as the activation function proved beneficial in avoiding issues like vanishing gradients, enabling better learning and convergence. Overall, for regression tasks involving complex and potentially non-linear relationships, a neural network model like the MLP, tuned with an appropriate learning rate, regularization, and activation functions, is the most effective approach.
+
+
+
+\subsection{Classification}
+
+For the classification case, Logistic Regression and Neural Networks with suitable activation functions stand out. Logistic Regression is a reliable and interpretable choice for binary classification tasks. It is particularly useful when the decision boundary is relatively simple and the data is well-separated. It also benefits from efficient optimization using methods like gradient descent, especially when tuned with a moderate learning rate and regularization parameter. However, Logistic Regression might struggle with more complex, non-linear decision boundaries.
+
+In cases where the classification problem involves more complex or non-linear relationships, a Feed-Forward Neural Network (FFNN) using Leaky ReLU as an activation function would be ideal. The results showed that using Leaky ReLU outperformed other activation functions such as standard ReLU and Sigmoid, as it effectively mitigates the vanishing gradient problem and keeps neurons active. This makes it particularly useful in deeper networks, allowing the model to converge efficiently and achieve higher accuracy. The ability of neural networks to learn complex features and decision boundaries makes them the best choice for classification tasks with intricate data patterns or multi-class problems.
